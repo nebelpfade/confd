@@ -29,26 +29,26 @@ func New(config Config) (StoreClient, error) {
 	backendNodes := config.BackendNodes
 	log.Info("Backend nodes set to " + strings.Join(backendNodes, ", "))
 	switch config.Backend {
-	case "consul":
-		return consul.New(config.BackendNodes, config.Scheme,
-			config.ClientCert, config.ClientKey,
-			config.ClientCaKeys)
+	// case "consul":
+	// 	return consul.New(config.BackendNodes, config.Scheme,
+	// 		config.ClientCert, config.ClientKey,
+	// 		config.ClientCaKeys)
 	case "etcd":
 		// Create the etcd client upfront and use it for the life of the process.
 		// The etcdClient is an http.Client and designed to be reused.
 		return etcd.NewEtcdClient(backendNodes, config.ClientCert, config.ClientKey, config.ClientCaKeys)
-	case "zookeeper":
-		return zookeeper.NewZookeeperClient(backendNodes)
-	case "redis":
-		return redis.NewRedisClient(backendNodes)
+	// case "zookeeper":
+	// 	return zookeeper.NewZookeeperClient(backendNodes)
+	// case "redis":
+	// 	return redis.NewRedisClient(backendNodes)
 	case "env":
 		return env.NewEnvClient()
-	case "dynamodb":
-		table := config.Table
-		log.Info("DynamoDB table set to " + table)
-		return dynamodb.NewDynamoDBClient(table)
-	case "stackengine":
-		return stackengine.NewStackEngineClient(backendNodes, config.Scheme, config.ClientCert, config.ClientKey, config.ClientCaKeys, config.AuthToken)
+		// case "dynamodb":
+		// 	table := config.Table
+		// 	log.Info("DynamoDB table set to " + table)
+		// 	return dynamodb.NewDynamoDBClient(table)
+		// case "stackengine":
+		// 	return stackengine.NewStackEngineClient(backendNodes, config.Scheme, config.ClientCert, config.ClientKey, config.ClientCaKeys, config.AuthToken)
 	}
 	return nil, errors.New("Invalid backend")
 }
