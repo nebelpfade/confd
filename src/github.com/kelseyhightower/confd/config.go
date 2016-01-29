@@ -112,7 +112,7 @@ func initConfig() error {
 		if err != nil {
 			return err
 		}
-		_, err = toml.Decode(string(configBytes), &config)
+		_, err = toml.Decode(os.ExpandEnv(string(configBytes)), &config)
 		if err != nil {
 			return err
 		}
